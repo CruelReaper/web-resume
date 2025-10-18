@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume Builder</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f4f6f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #004aad;
+      color: white;
+      text-align: center;
+      padding: 30px 10px;
+    }
+    header h1 {
+      margin: 5px 0;
+      font-size: 2em;
+    }
+    header p {
+      margin: 3px 0;
+      font-size: 1.1em;
+    }
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    section {
+      margin-bottom: 25px;
+    }
+    h2 {
+      color: #004aad;
+      border-bottom: 2px solid #004aad;
+      padding-bottom: 5px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .skills span {
+      display: inline-block;
+      background: #e0ecff;
+      color: #004aad;
+      padding: 5px 10px;
+      border-radius: 20px;
+      margin: 4px 6px 4px 0;
+      font-size: 0.9em;
+    }
+    footer {
+      text-align: center;
+      background-color: #004aad;
+      color: white;
+      padding: 10px;
+      margin-top: 40px;
+      font-size: 0.9em;
+    }
+    a {
+      color: #004aad;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .contact-form button, .btn {
+      background-color: #004aad;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin-top: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .contact-form button:hover, .btn:hover {
+      background-color: #003080;
+    }
+    .form-container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label { font-weight: 600; display: block; margin-top: 10px; }
+    input[type="text"], input[type="email"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .hidden { display: none; }
+    .controls {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      max-width: 900px;
+      margin: 10px auto;
+    }
+    .btn-outline {
+      background: white;
+      border: 1px solid #004aad;
+      color: #004aad;
+    }
+    .btn-outline:hover {
+      background: #004aad;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== FORM PAGE ===== -->
+  <div id="formPage" class="form-container">
+    <h1>Resume Builder</h1>
+    <p>Fill in the details below to generate your resume.</p>
+    <form id="resumeForm">
+      <label>Name</label>
+      <input type="text" id="name" required />
+
+      <label>Email</label>
+      <input type="email" id="email" required />
+
+      <label>Phone</label>
+      <input type="text" id="phone" />
+
+      <label>Career Objective</label>
+      <textarea id="objective" rows="3"></textarea>
+
+      <label>Education (each line = one item)</label>
+      <textarea id="education" rows="3"></textarea>
+
+      <label>Skills (comma separated)</label>
+      <input type="text" id="skills" />
+
+      <label>Projects (each line = one item)</label>
+      <textarea id="projects" rows="3"></textarea>
+
+      <label>Activities (each line = one item)</label>
+      <textarea id="activities" rows="3"></textarea>
+
+      <button type="button" id="generateBtn" class="btn">Generate Resume</button>
+    </form>
+  </div>
+
+  <!-- ===== GENERATED RESUME PAGE ===== -->
+  <div id="resumePage" class="hidden">
+    <div class="controls">
+      <button id="backBtn" class="btn-outline">Back to Edit</button>
+      <button id="printBtn" class="btn">Print / Save PDF</button>
+    </div>
+
+    <header>
+      <h1 id="rName">Your Name</h1>
+      <p id="rTitle">Second Year Engineering Student</p>
+      <p>Email: <a id="rEmail" href="#">your@email.com</a></p>
+      <p>Phone: <span id="rPhone"></span></p>
+      <p>GitHub: <a href="https://github.com/CruelReaper" target="_blank" style="color:white;">github.com/CruelReaper</a></p>
+    </header>
+
+    <main>
+      <section>
+        <h2>Career Objective</h2>
+        <p id="rObjective"></p>
+      </section>
+
+      <section>
+        <h2>Education</h2>
+        <ul id="rEducation"></ul>
+      </section>
+
+      <section>
+        <h2>Technical Skills</h2>
+        <div class="skills" id="rSkills"></div>
+      </section>
+
+      <section>
+        <h2>Projects</h2>
+        <ul id="rProjects"></ul>
+      </section>
+
+      <section>
+        <h2>Activities</h2>
+        <ul id="rActivities"></ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; <span id="year"></span> Generated Resume</p>
+    </footer>
+  </div>
+
+  <script>
+    const formPage = document.getElementById("formPage");
+    const resumePage = document.getElementById("resumePage");
+
+    function splitLines(text) {
+      return text.split(/\n+/).map(line => line.trim()).filter(l => l);
+    }
+
+    function renderResume(data) {
+      document.getElementById("rName").textContent = data.name || "";
+      document.getElementById("rEmail").textContent = data.email || "";
+      document.getElementById("rEmail").href = "mailto:" + data.email;
+      document.getElementById("rPhone").textContent = data.phone || "";
+      document.getElementById("rObjective").textContent = data.objective || "";
+
+      const edu = document.getElementById("rEducation");
+      edu.innerHTML = "";
+      splitLines(data.education).forEach(e => {
+        const li = document.createElement("li");
+        li.textContent = e;
+        edu.appendChild(li);
+      });
+
+      const skills = document.getElementById("rSkills");
+      skills.innerHTML = "";
+      data.skills.split(",").map(s => s.trim()).filter(s => s).forEach(skill => {
+        const span = document.createElement("span");
+        span.textContent = skill;
+        skills.appendChild(span);
+      });
+
+      const proj = document.getElementById("rProjects");
+      proj.innerHTML = "";
+      splitLines(data.projects).forEach(p => {
+        const li = document.createElement("li");
+        li.textContent = p;
+        proj.appendChild(li);
+      });
+
+      const act = document.getElementById("rActivities");
+      act.innerHTML = "";
+      splitLines(data.activities).forEach(a => {
+        const li = document.createElement("li");
+        li.textContent = a;
+        act.appendChild(li);
+      });
+    }
+
+    document.getElementById("generateBtn").addEventListener("click", () => {
+      const data = {
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        objective: document.getElementById("objective").value.trim(),
+        education: document.getElementById("education").value.trim(),
+        skills: document.getElementById("skills").value.trim(),
+        projects: document.getElementById("projects").value.trim(),
+        activities: document.getElementById("activities").value.trim(),
+      };
+
+      if (!data.name || !data.email) {
+        alert("Please fill in at least your Name and Email.");
+        return;
+      }
+
+      renderResume(data);
+      formPage.classList.add("hidden");
+      resumePage.classList.remove("hidden");
+    });
+
+    document.getElementById("backBtn").addEventListener("click", () => {
+      resumePage.classList.add("hidden");
+      formPage.classList.remove("hidden");
+    });
+
+    document.getElementById("printBtn").addEventListener("click", () => {
+      window.print();
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
